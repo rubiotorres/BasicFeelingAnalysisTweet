@@ -1,6 +1,9 @@
+from datetime import datetime, timedelta
 import tweepy
-from src.UsrGlobal.UserGlobal import  *
+from src.UsrGlobal.UserGlobal import *
 from src.feelingAnalysis import *
+from src.dataAnalysis import *
+
 
 class tweet():
     def __init__(self, 
@@ -21,12 +24,14 @@ class tweet():
             raise ValueError("Error: Parameters are required")
         self._p_q = param
 
-    def search(self):
+    def search(self,numberDays):
+        date = ((datetime.today()- timedelta(days = numberDays)).strftime("%Y-%m-%d"))
+        print(f"\nLooking for {self.p_itens} twitters about the word {self.p_q}, {numberDays} days ago, wait ...")
         auth = tweepy.OAuthHandler(Consumer_key, Consumer_key_secret)
         auth.set_access_token(Access_token, Access_token_secret)
         api = tweepy.API(auth,wait_on_rate_limit=True)
-        return tweepy.Cursor(api.search,q=self.p_q, since = '2019-02-22',lang=self.p_lang).items(self.p_itens)
+        return tweepy.Cursor(api.search,q=self.p_q, since = date,lang=self.p_lang).items(self.p_itens)
     
-    def feelingAnalizer(self):
+    def feelingAnalizer(self, numberDays):
         if self.p_lang == "pt":
-            branAlyser(self.search())
+            dataAnalysis(branAlyser(self.search(numberDays)))

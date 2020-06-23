@@ -1,24 +1,43 @@
 from textblob import TextBlob
 from googletrans import Translator
 from unidecode import unidecode
+import pandas as pd
+
+
+def brantranslate(p_ptxt):
+    v_textPT = unidecode(p_ptxt)
+    v_texten = Translator().translate(v_textPT)
+    return v_texten
+
 
 def branAlyser(p_tweets):
-    v_numPos = 0
-    v_numNeg = 0
-    v_total = 0
+    print("\nAnalyzing this nation's feelings ...")
+
+    v_data = {
+        "NegativePoints": 0,
+        "PositivePoints": 0,
+        "TotalPoints": 0,
+        "UndecidedPoints": [],
+        "TotalAuthors": [],
+        "TotalPolarity": [],
+        "TotalSource": [],
+        "TotalText": [],
+    }
 
     for i_tweet in p_tweets:
-        i_textPT = unidecode(i_tweet.text)
-        i_textEN = Translator().translate(i_textPT)
-        i_sentiment = TextBlob(i_textEN.text)
-        v_total += 1
-        if i_sentiment.polarity > 0: 
-            v_numPos += 1 
-        elif i_sentiment.polarity < 0: 
-            v_numNeg += 1
 
-    v_mediaPos = v_numPos/v_total
-    v_mediaNeg = v_numNeg/v_total
-    print('Percentage of positive comments: '+str(v_mediaPos))
-    print('Percentage of negative comments: '+str(v_mediaNeg))
-    print('Total of comments: '+str(v_mediaNeg + v_mediaPos))
+        i_textEN = brantranslate(i_tweet.text)
+        i_sentiment = TextBlob(i_textEN.text)
+        
+        if not i_sentiment.polarity == 0:
+            v_data["TotalAuthors"].append(unidecode(i_tweet.author.name))
+            v_data["TotalPolarity"].append(i_sentiment.polarity)
+            v_data["TotalSource"].append(i_tweet.source)
+            v_data["TotalText"].append(i_tweet.text)    
+
+    return pd.DataFrame({
+        'Name': v_data["TotalAuthors"],
+        'Polarity': v_data["TotalPolarity"],
+        'Sent from...': v_data["TotalSource"],
+        'Message': v_data["TotalText"]
+    })
