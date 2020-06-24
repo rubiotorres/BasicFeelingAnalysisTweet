@@ -3,6 +3,14 @@ from googletrans import Translator
 from unidecode import unidecode
 import pandas as pd
 
+"""
+brantranslate: str, Translate a string from pt to eng
+p_ptxt: str, String to be translated.
+
+branAlyser: DataFrame, Analyze the sentiment of twitters.
+p_tweets: Tweets found.
+
+"""
 
 def brantranslate(p_ptxt):
     v_textPT = unidecode(p_ptxt)

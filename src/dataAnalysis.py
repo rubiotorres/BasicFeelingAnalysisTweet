@@ -5,6 +5,22 @@ from unidecode import unidecode
 import matplotlib.pyplot as plt
 from googletrans import Translator
 
+"""
+Class responsible for analyzing data after analyzing feelings.
+
+getAverage: Analyzes the p_data dataframe and returns the average of the overall sentiment analysis.
+p_data: Datafarme, Data with sentiment analysis of the tweet
+
+getPositive: Analyzes the p_data dataframe and returns the positive feeling graphs.
+p_data: Datafarme, Data with sentiment analysis of the tweet
+
+getNegative: Analyzes the p_data dataframe and returns the graphs of the negative feeling.
+p_data: Datafarme, Data with sentiment analysis of the tweet
+
+dataAnalysis: Analyzes the data in the data frame and retrieves the results.
+p_data: Datafarme, Data with sentiment analysis of the tweet
+
+"""
 
 def getAverage(p_data):
     return p_data['Polarity'].mean()

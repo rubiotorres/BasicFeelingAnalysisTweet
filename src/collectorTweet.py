@@ -4,7 +4,20 @@ from src.UsrGlobal.UserGlobal import *
 from src.feelingAnalysis import *
 from src.dataAnalysis import *
 
+"""
+Class responsible for finding the twitters and managing them.
+p_q: string, Keyword
+p_itens: int, Number of twiiters wanted
+p_lang: string, Language of the tweets
 
+searchparam: Setter of this class, manages the designation of the variable p_q.
+
+search: Searches the tweets in a number of days defined by the numberdays parameter.
+numberDays: int, Number of days searched.
+
+feelingAnalizer (self, numberDays): Calls the analysis of feelings with the tweets in a number of days defined by the parameter numberdays.
+numberDays: int, Number of days searched.
+"""
 class tweet():
     def __init__(self, 
                 p_q,
