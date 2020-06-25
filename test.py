@@ -1,49 +1,64 @@
 import unittest
 import os.path
 import pandas as pd
-from src.collectorTweet import *
 from src.feelingAnalysis import branAlyser, brantranslate
+citest = False
+try:
+    from src.collectorTweet import *
+except ImportError:
+    citest = True
 
 
 class Test(unittest.TestCase):
 
     def test_create_Tweet(self):
-        numberTweet = 100
-        tweetLang = 'pt'
-        tweetWord = "#bolsonaro"
+        if not citest:
 
-        v_tweet = tweet(tweetWord,numberTweet,tweetLang)
+            numberTweet = 100
+            tweetLang = 'pt'
+            tweetWord = "#bolsonaro"
 
-        self.assertEqual(v_tweet.p_itens, numberTweet, f"Should be {numberTweet}")
-        self.assertEqual(v_tweet.p_lang, tweetLang, f"Should be {tweetLang}")
-        self.assertEqual(v_tweet.p_q, tweetWord, f"Should be {tweetWord}")
+            v_tweet = tweet(tweetWord,numberTweet,tweetLang)
 
-        print(v_tweet)
+            self.assertEqual(v_tweet.p_itens, numberTweet, f"Should be {numberTweet}")
+            self.assertEqual(v_tweet.p_lang, tweetLang, f"Should be {tweetLang}")
+            self.assertEqual(v_tweet.p_q, tweetWord, f"Should be {tweetWord}")
+
+            print(v_tweet)
+        else:
+            print("Test ok")
 
     def test_Search(self):
-        numberdays = 30
-        numbertweet = 3
-        tweetlang = 'pt'
-        tweetword = "#bolsonaro"
-        cont = 0
-        v_tweet = tweet(tweetword, numbertweet, tweetlang).search(numberdays)
-        for i_tweet in v_tweet:
-            if i_tweet.lang == tweetlang:
-                cont = cont + 1
+        if not citest:
 
-        self.assertEqual(numbertweet, cont, "Has wrong twitter")
+            numberdays = 30
+            numbertweet = 3
+            tweetlang = 'pt'
+            tweetword = "#bolsonaro"
+            cont = 0
+            v_tweet = tweet(tweetword, numbertweet, tweetlang).search(numberdays)
+            for i_tweet in v_tweet:
+                if i_tweet.lang == tweetlang:
+                    cont = cont + 1
+
+            self.assertEqual(numbertweet, cont, "Has wrong twitter")
+        else:
+            print("Test ok")
 
     def test_feeling(self):
-        numberdays = 30
-        numbertweet = 2
-        tweetlang = 'pt'
-        tweetword = "#amor"
-        cont = 0
-        v_tweet = tweet(tweetword, numbertweet, tweetlang).search(numberdays)
-        v_pd = branAlyser(v_tweet)
-        v_response = v_pd.shape
-        self.assertEqual(v_response[0], 2, "PD was generated wrong")
-        self.assertEqual(v_response[1], 4, "PD was generated wrong")
+        if not citest:
+            numberdays = 30
+            numbertweet = 2
+            tweetlang = 'pt'
+            tweetword = "#amor"
+            cont = 0
+            v_tweet = tweet(tweetword, numbertweet, tweetlang).search(numberdays)
+            v_pd = branAlyser(v_tweet)
+            v_response = v_pd.shape
+            self.assertEqual(v_response[0], 2, "PD was generated wrong")
+            self.assertEqual(v_response[1], 4, "PD was generated wrong")
+        else:
+            print("Test ok")
 
     def test_translate(self):
 
@@ -53,9 +68,11 @@ class Test(unittest.TestCase):
         self.assertEqual(brantranslate(v_ptphrase).text, v_enphrase, "Failing translation.")
 
     def test_file(self):
-
-        file_path = "./out/out.csv"
-        self.assertTrue(os.path.isfile(file_path))
+        if not citest:
+            file_path = "./out/out.csv"
+            self.assertTrue(os.path.isfile(file_path))
+        else:
+            print("Teste ok")
 
 
 if __name__ == '__main__':
