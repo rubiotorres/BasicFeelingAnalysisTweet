@@ -2,7 +2,8 @@ from textblob import TextBlob
 from googletrans import Translator
 from unidecode import unidecode
 import pandas as pd
-
+import warnings
+warnings.filterwarnings("ignore")
 """
 brantranslate: str, Translate a string from pt to eng
 p_ptxt: str, String to be translated.

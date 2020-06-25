@@ -3,7 +3,8 @@ import tweepy
 from src.UsrGlobal.UserGlobal import *
 from src.feelingAnalysis import *
 from src.dataAnalysis import *
-
+import warnings
+warnings.filterwarnings("ignore")
 """
 Class responsible for finding the twitters and managing them.
 p_q: string, Keyword
