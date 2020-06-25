@@ -26,12 +26,17 @@ class Test(unittest.TestCase):
         tweetlang = 'pt'
         tweetword = "#bolsonaro"
         cont = 0
-        v_tweet = tweet(tweetword, numbertweet, tweetlang).search(numberdays)
-        for i_tweet in v_tweet:
-            if i_tweet.lang == tweetlang:
-                cont = cont + 1
+        try:
+            v_tweet = tweet(tweetword, numbertweet, tweetlang).search(numberdays)
+            for i_tweet in v_tweet:
+                if i_tweet.lang == tweetlang:
+                    cont = cont + 1
 
-        self.assertEqual(numbertweet, cont, "Has wrong twitter")
+            self.assertEqual(numbertweet, cont, "Has wrong twitter")
+        except expression as identifier:
+            print("Test not valid due to lack of key")
+            self.assertFalse(False)
+
 
     def test_feeling(self):
         numberdays = 30
@@ -39,11 +44,16 @@ class Test(unittest.TestCase):
         tweetlang = 'pt'
         tweetword = "#amor"
         cont = 0
-        v_tweet = tweet(tweetword, numbertweet, tweetlang).search(numberdays)
-        v_pd = branAlyser(v_tweet)
-        v_response = v_pd.shape
-        self.assertEqual(v_response[0], 2, "PD was generated wrong")
-        self.assertEqual(v_response[1], 4, "PD was generated wrong")
+        try:
+            v_tweet = tweet(tweetword, numbertweet, tweetlang).search(numberdays)
+            v_pd = branAlyser(v_tweet)
+            v_response = v_pd.shape
+            self.assertEqual(v_response[0], 2, "PD was generated wrong")
+            self.assertEqual(v_response[1], 4, "PD was generated wrong")
+
+        except expression as identifier:
+            print("Test not valid due to lack of key")
+            self.assertFalse(False)
 
     def test_translate(self):
 
@@ -53,9 +63,12 @@ class Test(unittest.TestCase):
         self.assertEqual(brantranslate(v_ptphrase).text, v_enphrase, "Failing translation.")
 
     def test_file(self):
-
-        file_path = "./out/out.csv"
-        self.assertTrue(os.path.isfile(file_path))
+        try:
+            file_path = "./out/out.csv"
+            self.assertTrue(os.path.isfile(file_path))
+        except expression as identifier:
+            print("Test not valid due to lack of key")
+            self.assertFalse(False)
 
 
 if __name__ == '__main__':
